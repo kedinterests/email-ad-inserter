@@ -1,0 +1,4 @@
+ad_placeholder_content:
+  default: ""
+  type: text
+  description: "HTML or text content that will replace %{ad_placeholder} in email templates where it appears."
