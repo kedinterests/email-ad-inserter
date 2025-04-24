@@ -2,8 +2,9 @@
   "name": "email-ad-inserter",
   "about": "Allows ad placement in email templates via %{ad_placeholder} tag and a Theme Component setting.",
   "version": "0.1",
-  "authors": ["Your Name"],
+  "authors": ["ChatGPT"],
   "theme_version": 2,
+  "component": true,
   "license": "MIT",
   "server": [
 	"replace_ad_placeholder.rb"
