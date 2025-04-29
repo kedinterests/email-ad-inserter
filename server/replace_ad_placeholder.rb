@@ -1,17 +1,24 @@
 # frozen_string_literal: true
 
 after_initialize do
+  # Extend Email::MessageBuilder to inject our ad_placeholder variable
+  Email::MessageBuilder.class_eval do
+    alias_method :original_build_custom_variables, :build_custom_variables
+
+    def build_custom_variables
+      vars = original_build_custom_variables
+      vars[:ad_placeholder] = "" # Dummy value so the validator allows %{ad_placeholder}
+      vars
+    end
+  end
+
+  # Still override replace_variables to actually swap the placeholder with real ad HTML
   Email::Renderer.class_eval do
     alias_method :original_replace_variables, :replace_variables
 
     def replace_variables(text, opts)
-      # Define a dummy ad_placeholder so Discourse doesn't complain
-      opts ||= {}
-      opts[:ad_placeholder] ||= ""
-
       result = original_replace_variables(text, opts)
 
-      # Now do our replacement manually
       ad_content = <<~HTML
         <hr>
         <p style="font-size: 14px; color: #555; text-align: center;">
